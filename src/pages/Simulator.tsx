@@ -16,12 +16,14 @@ import LegendaryPopup from '@/components/LegendaryPopup';
 import { getRankLogo } from '@/utils/rankLogos';
 import { getLevelImage } from '@/utils/levelImages';
 import hotSeatMusic from '@/assets/hotseat-music.mp3';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 type GameState = 'playing' | 'showing-result' | 'next-question' | 'completed';
 
 const Simulator = () => {
   const navigate = useNavigate();
   const audioRef = useRef<HTMLAudioElement>(null);
+  const isMobile = useIsMobile();
   
   // Core State
   const [callsign, setCallsign] = useState('');
@@ -77,13 +79,25 @@ const Simulator = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Start playing when questions are loaded and audio has been started
-    if (questions.length > 0 && audioStarted) {
-      audio.volume = 0.3; // Set to 30% volume
-      audio.loop = true;
-      audio.play().catch(err => {
-        console.log('Audio autoplay prevented:', err);
-      });
+    // On desktop: auto-play when questions are loaded
+    // On mobile: only play when user clicks the audio button (audioStarted = true)
+    if (questions.length > 0) {
+      if (!isMobile) {
+        // Desktop: auto-play
+        audio.volume = 0.3;
+        audio.loop = true;
+        audio.play().catch(err => {
+          console.log('Audio autoplay prevented:', err);
+        });
+        setAudioStarted(true);
+      } else if (audioStarted) {
+        // Mobile: only play after user interaction
+        audio.volume = 0.3;
+        audio.loop = true;
+        audio.play().catch(err => {
+          console.log('Audio play failed:', err);
+        });
+      }
     }
 
     // Cleanup: stop audio when component unmounts
@@ -91,7 +105,7 @@ const Simulator = () => {
       audio.pause();
       audio.currentTime = 0;
     };
-  }, [questions, audioStarted]);
+  }, [questions, audioStarted, isMobile]);
 
   // Mute/Unmute Control
   useEffect(() => {
@@ -101,16 +115,19 @@ const Simulator = () => {
     }
   }, [isMuted]);
 
-  // Start audio on first user interaction
+  // Start audio on first user interaction (mobile only)
   const startAudio = () => {
     const audio = audioRef.current;
-    if (audio && !audioStarted) {
+    if (audio && !audioStarted && isMobile) {
       audio.volume = 0.3;
       audio.loop = true;
-      audio.play().catch(err => {
+      audio.play().then(() => {
+        setAudioStarted(true);
+      }).catch(err => {
         console.log('Audio play failed:', err);
+        // Try to set started anyway so button state updates
+        setAudioStarted(true);
       });
-      setAudioStarted(true);
     }
   };
 
@@ -153,10 +170,6 @@ const Simulator = () => {
   const handleAnswerSelect = (answerIndex: number) => {
     if (gameState !== 'playing' || isAnswerLocked) return;
     setSelectedAnswer(answerIndex);
-    // Start audio on first user interaction
-    if (!audioStarted) {
-      startAudio();
-    }
   };
 
   const handleFinalAnswer = () => {
@@ -350,16 +363,16 @@ const Simulator = () => {
       {/* Music Control Button */}
       <button
         onClick={() => {
-          if (!audioStarted) {
+          if (!audioStarted && isMobile) {
             startAudio();
           } else {
             toggleMute();
           }
         }}
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-2.5 sm:p-3 bg-[#001240]/80 backdrop-blur-xl border-2 border-[#B1FCF3]/30 rounded-full hover:bg-[#001240]/95 hover:border-[#B1FCF3]/50 transition-all duration-300 hover:scale-110 group shadow-lg shadow-[#B1FCF3]/20"
-        aria-label={!audioStarted ? 'Start music' : isMuted ? 'Unmute music' : 'Mute music'}
+        aria-label={(!audioStarted && isMobile) ? 'Start music' : isMuted ? 'Unmute music' : 'Mute music'}
       >
-        {!audioStarted ? (
+        {(!audioStarted && isMobile) ? (
           <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#B1FCF3] group-hover:text-white animate-pulse" />
         ) : isMuted ? (
           <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 group-hover:text-red-300" />
