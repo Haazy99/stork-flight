@@ -308,7 +308,7 @@ const Simulator = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black py-4 sm:py-6 px-4 pb-24 sm:pb-28 relative overflow-hidden">
+    <div className="min-h-screen bg-black py-3 sm:py-6 px-3 sm:px-4 pb-20 sm:pb-24 relative overflow-x-hidden">
       {/* Animated Grid Background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#B1FCF312_1px,transparent_1px),linear-gradient(to_bottom,#B1FCF312_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
       
@@ -406,47 +406,47 @@ const Simulator = () => {
           <div className="space-y-4">
             {/* Header */}
             <Card className="border-2 border-cyan-500/30 bg-slate-900/80 backdrop-blur-xl shadow-2xl">
-              <CardHeader className="py-3 sm:py-4">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
+              <CardHeader className="py-2 sm:py-3 md:py-4 px-3 sm:px-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <div className="relative">
                       <div className="absolute inset-0 bg-purple-500 rounded-xl blur-lg opacity-50" />
-                      <div className="relative p-2 bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-xl border border-[#B1FCF3]/30">
-                        <Trophy className="w-6 h-6 text-[#B1FCF3]" />
+                      <div className="relative p-1.5 sm:p-2 bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-xl border border-[#B1FCF3]/30">
+                        <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-[#B1FCF3]" />
                       </div>
                     </div>
                     <div>
-                      <CardTitle className="text-base sm:text-lg font-black text-white">
+                      <CardTitle className="text-sm sm:text-base md:text-lg font-black text-white">
                         Hot Seat Challenge
                       </CardTitle>
-                      <CardDescription className="text-xs sm:text-sm text-white/50 font-medium">
+                      <CardDescription className="text-[10px] sm:text-xs text-white/50 font-medium">
                         Question {currentQuestionNumber} of 25
                       </CardDescription>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     {/* Lifeline */}
                     <Button
                       onClick={handleLifeline}
                       disabled={lifelinesRemaining === 0 || eliminatedOptions.length > 0 || gameState !== 'playing'}
                       size="sm"
                       className={cn(
-                        "font-black",
+                        "font-black text-xs h-8 px-2 sm:px-3",
                         lifelinesRemaining > 0 ? "bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-[#B1FCF3]" : "opacity-50"
                       )}
                     >
-                      <Lightbulb className="w-4 h-4 mr-1" />
+                      <Lightbulb className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                       60:40 x{lifelinesRemaining}
                     </Button>
                     {/* Timer */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 sm:gap-2">
                       <Clock className={cn(
-                        "w-5 h-5",
+                        "w-4 h-4 sm:w-5 sm:h-5",
                         timeRemaining <= 10 ? "text-red-400" : "text-[#B1FCF3]"
                       )} />
                       <Badge
                         className={cn(
-                          "text-xl font-black px-3 py-1 rounded-xl",
+                          "text-lg sm:text-xl font-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-xl",
                           timeRemaining <= 10
                             ? "bg-red-500/20 text-red-300 border-red-500/30 animate-timer-warning"
                             : "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30"
@@ -459,12 +459,12 @@ const Simulator = () => {
                 </div>
 
                 {/* Current Prize */}
-                <div className="mt-3 text-center">
-                  <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Playing For</p>
-                  <p className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">
+                <div className="mt-2 sm:mt-3 text-center">
+                  <p className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider mb-1">Playing For</p>
+                  <p className="text-xl sm:text-2xl md:text-3xl font-black bg-gradient-to-r from-amber-400 to-yellow-400 bg-clip-text text-transparent">
                     {currentEggs.toLocaleString()} EGGs
                   </p>
-                  <p className="text-xs text-white/50 mt-1">
+                  <p className="text-[10px] sm:text-xs text-white/50 mt-1">
                     {getRankTitle(currentRank)} • {currentLevel?.timeLimit}s Time Limit
                   </p>
                 </div>
@@ -472,18 +472,18 @@ const Simulator = () => {
             </Card>
 
             {/* Question Card */}
-            <Card className="p-4 sm:p-6 border-2 border-red-500/30 bg-slate-900/90 backdrop-blur-xl shadow-2xl">
-              <div className="space-y-4 sm:space-y-5">
+            <Card className="p-3 sm:p-4 md:p-6 border-2 border-red-500/30 bg-slate-900/90 backdrop-blur-xl shadow-2xl">
+              <div className="space-y-3 sm:space-y-4 md:space-y-5">
                 {/* Question */}
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <Badge className="text-xs font-bold bg-red-500/20 text-red-300 border border-red-500/30 px-2.5 py-0.5 rounded-lg">
-                      <Sparkles className="w-3 h-3 mr-1" />
+                <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                    <Badge className="text-[10px] sm:text-xs font-bold bg-red-500/20 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-lg">
+                      <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-0.5 sm:mr-1" />
                       {currentQuestion.category}
                     </Badge>
                     <Badge
                       className={cn(
-                        "text-xs font-bold uppercase px-2.5 py-0.5 rounded-lg",
+                        "text-[10px] sm:text-xs font-bold uppercase px-2 py-0.5 rounded-lg",
                         currentQuestion.difficulty === 'hard' && "bg-red-500/20 text-red-300 border border-red-500/30",
                         currentQuestion.difficulty === 'medium' && "bg-amber-500/20 text-amber-300 border border-amber-500/30",
                         currentQuestion.difficulty === 'easy' && "bg-green-500/20 text-green-300 border border-green-500/30"
@@ -492,7 +492,7 @@ const Simulator = () => {
                       {currentQuestion.difficulty}
                     </Badge>
                   </div>
-                  <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black text-white leading-tight">
+                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-black text-white leading-tight">
                     {currentQuestion.question}
                   </h2>
                 </div>
@@ -559,7 +559,7 @@ const Simulator = () => {
                     disabled={selectedAnswer === null}
                     size="lg"
                     className={cn(
-                      "w-full h-14 text-lg font-black uppercase transition-all duration-300",
+                      "w-full h-12 sm:h-14 text-sm sm:text-base md:text-lg font-black uppercase transition-all duration-300",
                       selectedAnswer !== null
                         ? "bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400 text-white hover:scale-105 animate-pulse"
                         : "bg-slate-700 text-white/50 cursor-not-allowed"
