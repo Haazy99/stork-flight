@@ -429,7 +429,7 @@ const Simulator = () => {
           </Card>
 
           {/* Main Quiz Area */}
-          <div className="space-y-4">
+          <div className="space-y-4 min-w-0 w-full">
             {/* Header */}
             <Card className="border-2 border-cyan-500/30 bg-slate-900/80 backdrop-blur-xl shadow-2xl">
               <CardHeader className="py-2 sm:py-3 md:py-4 px-3 sm:px-4">
@@ -498,10 +498,10 @@ const Simulator = () => {
             </Card>
 
             {/* Question Card */}
-            <Card className="p-3 sm:p-4 md:p-6 border-2 border-red-500/30 bg-slate-900/90 backdrop-blur-xl shadow-2xl">
-              <div className="space-y-3 sm:space-y-4 md:space-y-5">
+            <Card className="p-3 sm:p-4 md:p-6 border-2 border-red-500/30 bg-slate-900/90 backdrop-blur-xl shadow-2xl overflow-hidden">
+              <div className="space-y-3 sm:space-y-4 md:space-y-5 w-full">
                 {/* Question */}
-                <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
+                <div className="space-y-1.5 sm:space-y-2 md:space-y-3 w-full min-w-0">
                   <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                     <Badge className="text-[10px] sm:text-xs font-bold bg-red-500/20 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-lg">
                       <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-0.5 sm:mr-1" />
@@ -518,7 +518,7 @@ const Simulator = () => {
                       {currentQuestion.difficulty}
                     </Badge>
                   </div>
-                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-black text-white leading-tight">
+                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-black text-white leading-tight break-words hyphens-auto overflow-wrap-anywhere w-full">
                     {currentQuestion.question}
                   </h2>
                 </div>
@@ -526,7 +526,7 @@ const Simulator = () => {
                 <Separator className="bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
 
                 {/* Options */}
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-2 sm:space-y-3 w-full min-w-0">
                   {currentQuestion.options.map((option, index) => {
                     const isSelected = selectedAnswer === index;
                     const isCorrect = index === currentQuestion.correctAnswer;
@@ -550,9 +550,9 @@ const Simulator = () => {
                           isSelected && !showFeedback && "border-cyan-500 bg-cyan-500/20 scale-[1.01]"
                         )}
                       >
-                        <span className="flex items-center gap-2 sm:gap-3 w-full">
+                        <span className="flex items-start sm:items-center gap-2 sm:gap-3 w-full min-w-0">
                           <span className={cn(
-                            "flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 flex items-center justify-center text-sm sm:text-base font-black transition-all",
+                            "flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 flex items-center justify-center text-sm sm:text-base font-black transition-all mt-0.5 sm:mt-0",
                             !showFeedback && !isEliminated && "border-slate-600 text-white/50 group-hover:border-cyan-400 group-hover:text-[#B1FCF3]",
                             showCorrect && "bg-green-500 border-green-500 text-white",
                             showIncorrect && "bg-red-500 border-red-500 text-white",
@@ -561,7 +561,7 @@ const Simulator = () => {
                             {String.fromCharCode(65 + index)}
                           </span>
                           <span className={cn(
-                            "flex-1 transition-colors",
+                            "flex-1 transition-colors break-words hyphens-auto overflow-wrap-anywhere",
                             showCorrect && "text-white",
                             showIncorrect && "text-white",
                             !showFeedback && "text-slate-200 group-hover:text-white"
