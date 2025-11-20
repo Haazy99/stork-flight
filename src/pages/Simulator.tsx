@@ -50,6 +50,7 @@ const Simulator = () => {
   
   // Audio
   const [isMuted, setIsMuted] = useState(false);
+  const [audioStarted, setAudioStarted] = useState(false);
 
   const currentLevel = getLevelByQuestionNumber(currentQuestionNumber);
   const currentQuestion = questions[currentQuestionNumber - 1];
@@ -76,8 +77,8 @@ const Simulator = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Start playing when questions are loaded
-    if (questions.length > 0) {
+    // Start playing when questions are loaded and audio has been started
+    if (questions.length > 0 && audioStarted) {
       audio.volume = 0.3; // Set to 30% volume
       audio.loop = true;
       audio.play().catch(err => {
@@ -90,7 +91,7 @@ const Simulator = () => {
       audio.pause();
       audio.currentTime = 0;
     };
-  }, [questions]);
+  }, [questions, audioStarted]);
 
   // Mute/Unmute Control
   useEffect(() => {
@@ -99,6 +100,19 @@ const Simulator = () => {
       audio.muted = isMuted;
     }
   }, [isMuted]);
+
+  // Start audio on first user interaction
+  const startAudio = () => {
+    const audio = audioRef.current;
+    if (audio && !audioStarted) {
+      audio.volume = 0.3;
+      audio.loop = true;
+      audio.play().catch(err => {
+        console.log('Audio play failed:', err);
+      });
+      setAudioStarted(true);
+    }
+  };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -139,6 +153,10 @@ const Simulator = () => {
   const handleAnswerSelect = (answerIndex: number) => {
     if (gameState !== 'playing' || isAnswerLocked) return;
     setSelectedAnswer(answerIndex);
+    // Start audio on first user interaction
+    if (!audioStarted) {
+      startAudio();
+    }
   };
 
   const handleFinalAnswer = () => {
@@ -329,13 +347,21 @@ const Simulator = () => {
       {/* Background Music */}
       <audio ref={audioRef} src={hotSeatMusic} />
 
-      {/* Mute Button */}
+      {/* Music Control Button */}
       <button
-        onClick={toggleMute}
+        onClick={() => {
+          if (!audioStarted) {
+            startAudio();
+          } else {
+            toggleMute();
+          }
+        }}
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-2.5 sm:p-3 bg-[#001240]/80 backdrop-blur-xl border-2 border-[#B1FCF3]/30 rounded-full hover:bg-[#001240]/95 hover:border-[#B1FCF3]/50 transition-all duration-300 hover:scale-110 group shadow-lg shadow-[#B1FCF3]/20"
-        aria-label={isMuted ? 'Unmute music' : 'Mute music'}
+        aria-label={!audioStarted ? 'Start music' : isMuted ? 'Unmute music' : 'Mute music'}
       >
-        {isMuted ? (
+        {!audioStarted ? (
+          <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#B1FCF3] group-hover:text-white animate-pulse" />
+        ) : isMuted ? (
           <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 group-hover:text-red-300" />
         ) : (
           <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#B1FCF3] group-hover:text-white" />
