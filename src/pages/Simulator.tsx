@@ -554,8 +554,8 @@ const Simulator = () => {
                         disabled={showFeedback || isEliminated}
                         variant="outline"
                         className={cn(
-                          "group w-full h-auto py-2.5 sm:py-3 md:py-4 px-2.5 sm:px-3 md:px-5 text-left justify-start text-sm sm:text-base font-semibold transition-all duration-300",
-                          "border-2 rounded-xl overflow-hidden",
+                          "group w-full min-h-[auto] h-auto py-2.5 sm:py-3 md:py-4 px-2.5 sm:px-3 md:px-5 text-left justify-start text-sm sm:text-base font-semibold transition-all duration-300",
+                          "border-2 rounded-xl",
                           isEliminated && "opacity-30 cursor-not-allowed",
                           !showFeedback && !isEliminated && "border-slate-700 bg-slate-800/50 hover:border-cyan-500 hover:bg-cyan-500/10 hover:scale-[1.01]",
                           showCorrect && "border-green-500 bg-green-500/20",
@@ -563,7 +563,7 @@ const Simulator = () => {
                           isSelected && !showFeedback && "border-cyan-500 bg-cyan-500/20 scale-[1.01]"
                         )}
                       >
-                        <span className="flex items-start sm:items-center gap-1.5 sm:gap-2 md:gap-3 w-full min-w-0 max-w-full">
+                        <span className="flex items-start gap-1.5 sm:gap-2 md:gap-3 w-full min-w-0">
                           <span className={cn(
                             "flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full border-2 flex items-center justify-center text-xs sm:text-sm md:text-base font-black transition-all mt-0.5 sm:mt-0",
                             !showFeedback && !isEliminated && "border-slate-600 text-white/50 group-hover:border-cyan-400 group-hover:text-[#B1FCF3]",
@@ -575,24 +575,25 @@ const Simulator = () => {
                           </span>
                           <span 
                             className={cn(
-                              "flex-1 transition-colors min-w-0 max-w-full",
+                              "flex-1 transition-colors min-w-0 w-full",
                               showCorrect && "text-white",
                               showIncorrect && "text-white",
                               !showFeedback && "text-slate-200 group-hover:text-white"
                             )}
                             style={{ 
                               wordBreak: 'break-word',
-                              overflowWrap: 'anywhere',
-                              hyphens: 'auto'
+                              overflowWrap: 'break-word',
+                              hyphens: 'auto',
+                              lineHeight: '1.5'
                             }}
                           >
                             {option}
                           </span>
                           {showCorrect && (
-                            <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0 animate-egg-hatch" />
+                            <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-green-400 flex-shrink-0 animate-egg-hatch ml-1" />
                           )}
                           {showIncorrect && (
-                            <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-400 flex-shrink-0 animate-pulse" />
+                            <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-400 flex-shrink-0 animate-pulse ml-1" />
                           )}
                         </span>
                       </Button>
