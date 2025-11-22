@@ -39,7 +39,7 @@ const Simulator = () => {
   const [lastSafeHavenEggs, setLastSafeHavenEggs] = useState(0);
   
   // Timer
-  const [timeRemaining, setTimeRemaining] = useState(40);
+  const [timeRemaining, setTimeRemaining] = useState(50);
   
   // Lifelines
   const [lifelinesRemaining, setLifelinesRemaining] = useState(2);
@@ -74,7 +74,7 @@ const Simulator = () => {
     setCallsign(storedCallsign);
     const selectedQuestions = getRandomQuestions(25);
     setQuestions(selectedQuestions);
-    setTimeRemaining(40); // Peep tier starts with 40s
+    setTimeRemaining(50); // Peep tier starts with 50s
     setResultsSaved(false); // Reset flag for new quiz
   }, [navigate]);
 
@@ -257,7 +257,7 @@ const Simulator = () => {
     setIsAnswerLocked(false);
     setEliminatedOptions([]);
     setGameState('playing');
-    setTimeRemaining(nextLevel?.timeLimit || 40);
+    setTimeRemaining(nextLevel?.timeLimit || 50);
   };
 
   const handleWalkAway = () => {

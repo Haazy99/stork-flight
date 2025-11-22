@@ -10,40 +10,40 @@ export interface HotSeatLevel {
 }
 
 export const HOT_SEAT_LADDER: HotSeatLevel[] = [
-  // PEEP Tier (Q1-Q5): 40 seconds per question
-  { questionNumber: 1, eggsValue: 5000, rankTier: 'PEEP', timeLimit: 40, isSafeHaven: false },
-  { questionNumber: 2, eggsValue: 10000, rankTier: 'PEEP', timeLimit: 40, isSafeHaven: false },
-  { questionNumber: 3, eggsValue: 20000, rankTier: 'PEEP', timeLimit: 40, isSafeHaven: false },
-  { questionNumber: 4, eggsValue: 30000, rankTier: 'PEEP', timeLimit: 40, isSafeHaven: false },
-  { questionNumber: 5, eggsValue: 50000, rankTier: 'PEEP', timeLimit: 40, isSafeHaven: true }, // Safe Haven #1
+  // PEEP Tier (Q1-Q5): 50 seconds per question
+  { questionNumber: 1, eggsValue: 5000, rankTier: 'PEEP', timeLimit: 50, isSafeHaven: false },
+  { questionNumber: 2, eggsValue: 10000, rankTier: 'PEEP', timeLimit: 50, isSafeHaven: false },
+  { questionNumber: 3, eggsValue: 20000, rankTier: 'PEEP', timeLimit: 50, isSafeHaven: false },
+  { questionNumber: 4, eggsValue: 30000, rankTier: 'PEEP', timeLimit: 50, isSafeHaven: false },
+  { questionNumber: 5, eggsValue: 50000, rankTier: 'PEEP', timeLimit: 50, isSafeHaven: true }, // Safe Haven #1
 
-  // WINGED Tier (Q6-Q10): 30 seconds per question
-  { questionNumber: 6, eggsValue: 60000, rankTier: 'WINGED', timeLimit: 30, isSafeHaven: false },
-  { questionNumber: 7, eggsValue: 75000, rankTier: 'WINGED', timeLimit: 30, isSafeHaven: false },
-  { questionNumber: 8, eggsValue: 90000, rankTier: 'WINGED', timeLimit: 30, isSafeHaven: false },
-  { questionNumber: 9, eggsValue: 110000, rankTier: 'WINGED', timeLimit: 30, isSafeHaven: false },
-  { questionNumber: 10, eggsValue: 125000, rankTier: 'WINGED', timeLimit: 30, isSafeHaven: false },
+  // WINGED Tier (Q6-Q10): 45 seconds per question
+  { questionNumber: 6, eggsValue: 60000, rankTier: 'WINGED', timeLimit: 45, isSafeHaven: false },
+  { questionNumber: 7, eggsValue: 75000, rankTier: 'WINGED', timeLimit: 45, isSafeHaven: false },
+  { questionNumber: 8, eggsValue: 90000, rankTier: 'WINGED', timeLimit: 45, isSafeHaven: false },
+  { questionNumber: 9, eggsValue: 110000, rankTier: 'WINGED', timeLimit: 45, isSafeHaven: false },
+  { questionNumber: 10, eggsValue: 125000, rankTier: 'WINGED', timeLimit: 45, isSafeHaven: false },
 
-  // SONGBIRD Tier (Q11-Q15): 20 seconds per question
-  { questionNumber: 11, eggsValue: 150000, rankTier: 'SONGBIRD', timeLimit: 20, isSafeHaven: false },
-  { questionNumber: 12, eggsValue: 175000, rankTier: 'SONGBIRD', timeLimit: 20, isSafeHaven: false },
-  { questionNumber: 13, eggsValue: 200000, rankTier: 'SONGBIRD', timeLimit: 20, isSafeHaven: false },
-  { questionNumber: 14, eggsValue: 225000, rankTier: 'SONGBIRD', timeLimit: 20, isSafeHaven: false },
-  { questionNumber: 15, eggsValue: 250000, rankTier: 'SONGBIRD', timeLimit: 20, isSafeHaven: true }, // Safe Haven #2
+  // SONGBIRD Tier (Q11-Q15): 35 seconds per question
+  { questionNumber: 11, eggsValue: 150000, rankTier: 'SONGBIRD', timeLimit: 35, isSafeHaven: false },
+  { questionNumber: 12, eggsValue: 175000, rankTier: 'SONGBIRD', timeLimit: 35, isSafeHaven: false },
+  { questionNumber: 13, eggsValue: 200000, rankTier: 'SONGBIRD', timeLimit: 35, isSafeHaven: false },
+  { questionNumber: 14, eggsValue: 225000, rankTier: 'SONGBIRD', timeLimit: 35, isSafeHaven: false },
+  { questionNumber: 15, eggsValue: 250000, rankTier: 'SONGBIRD', timeLimit: 35, isSafeHaven: true }, // Safe Haven #2
 
-  // WAYFINDER Tier (Q16-Q20): 15 seconds per question
-  { questionNumber: 16, eggsValue: 300000, rankTier: 'WAYFINDER', timeLimit: 15, isSafeHaven: false },
-  { questionNumber: 17, eggsValue: 350000, rankTier: 'WAYFINDER', timeLimit: 15, isSafeHaven: false },
-  { questionNumber: 18, eggsValue: 400000, rankTier: 'WAYFINDER', timeLimit: 15, isSafeHaven: false },
-  { questionNumber: 19, eggsValue: 450000, rankTier: 'WAYFINDER', timeLimit: 15, isSafeHaven: false },
-  { questionNumber: 20, eggsValue: 500000, rankTier: 'WAYFINDER', timeLimit: 15, isSafeHaven: false },
+  // WAYFINDER Tier (Q16-Q20): 40 seconds per question
+  { questionNumber: 16, eggsValue: 300000, rankTier: 'WAYFINDER', timeLimit: 40, isSafeHaven: false },
+  { questionNumber: 17, eggsValue: 350000, rankTier: 'WAYFINDER', timeLimit: 40, isSafeHaven: false },
+  { questionNumber: 18, eggsValue: 400000, rankTier: 'WAYFINDER', timeLimit: 40, isSafeHaven: false },
+  { questionNumber: 19, eggsValue: 450000, rankTier: 'WAYFINDER', timeLimit: 40, isSafeHaven: false },
+  { questionNumber: 20, eggsValue: 500000, rankTier: 'WAYFINDER', timeLimit: 40, isSafeHaven: false },
 
-  // SKYMASTER Tier (Q21-Q25): 10 seconds per question
-  { questionNumber: 21, eggsValue: 600000, rankTier: 'SKYMASTER', timeLimit: 10, isSafeHaven: false },
-  { questionNumber: 22, eggsValue: 700000, rankTier: 'SKYMASTER', timeLimit: 10, isSafeHaven: false },
-  { questionNumber: 23, eggsValue: 800000, rankTier: 'SKYMASTER', timeLimit: 10, isSafeHaven: false },
-  { questionNumber: 24, eggsValue: 900000, rankTier: 'SKYMASTER', timeLimit: 10, isSafeHaven: false },
-  { questionNumber: 25, eggsValue: 1000000, rankTier: 'SKYMASTER', timeLimit: 10, isSafeHaven: false }, // Final Question
+  // SKYMASTER Tier (Q21-Q25): 25 seconds per question
+  { questionNumber: 21, eggsValue: 600000, rankTier: 'SKYMASTER', timeLimit: 25, isSafeHaven: false },
+  { questionNumber: 22, eggsValue: 700000, rankTier: 'SKYMASTER', timeLimit: 25, isSafeHaven: false },
+  { questionNumber: 23, eggsValue: 800000, rankTier: 'SKYMASTER', timeLimit: 25, isSafeHaven: false },
+  { questionNumber: 24, eggsValue: 900000, rankTier: 'SKYMASTER', timeLimit: 25, isSafeHaven: false },
+  { questionNumber: 25, eggsValue: 1000000, rankTier: 'SKYMASTER', timeLimit: 25, isSafeHaven: false }, // Final Question
 ];
 
 export interface SafeHaven {
