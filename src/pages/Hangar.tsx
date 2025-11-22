@@ -78,7 +78,7 @@ const Hangar = () => {
             </div>
             
             <p className="text-lg sm:text-xl md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed">
-              Test your knowledge. Prove your rank.{' '}
+              Prove your rank.{' '}
               <span className="text-white font-bold bg-gradient-to-r from-[#B1FCF3] to-white bg-clip-text text-transparent">
                 Let's fly.
               </span>

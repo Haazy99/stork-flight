@@ -118,7 +118,7 @@ const HotSeatIntro = () => {
                       <div>
                         <h3 className="font-black text-white mb-1">1. Every question is on a timer</h3>
                         <p className="text-sm text-white/70">
-                          Questions get <span className="font-bold text-red-400">progressively faster</span>: 40s → 30s → 20s → 15s → 10s. Run out of time, and you <span className="font-bold">lose</span>.
+                          Questions get <span className="font-bold text-red-400">progressively faster</span>: 50s → 45s → 40s → 35s → 25s. Run out of time, and you <span className="font-bold">lose</span>.
                         </p>
                       </div>
                     </div>
