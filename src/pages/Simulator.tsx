@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { getRandomQuestions, type Question } from '@/data/questions';
 import { HOT_SEAT_LADDER, getLevelByQuestionNumber, getConsolationPrize } from '@/data/hotSeatConfig';
 import { getRankFromEggs, getRankTitle } from '@/types/quiz';
-import type { OutcomeType } from '@/types/quiz';
+import type { OutcomeType, LeaderboardEntry } from '@/types/quiz';
 import { CheckCircle2, XCircle, Clock, Sparkles, Trophy, Lightbulb, ArrowRight, Shield, Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import FailurePopup from '@/components/FailurePopup';
@@ -53,6 +53,9 @@ const Simulator = () => {
   // Audio
   const [isMuted, setIsMuted] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
+  
+  // Track if results have been saved to prevent duplicates
+  const [resultsSaved, setResultsSaved] = useState(false);
 
   const currentLevel = getLevelByQuestionNumber(currentQuestionNumber);
   const currentQuestion = questions[currentQuestionNumber - 1];
@@ -72,6 +75,7 @@ const Simulator = () => {
     const selectedQuestions = getRandomQuestions(25);
     setQuestions(selectedQuestions);
     setTimeRemaining(40); // Peep tier starts with 40s
+    setResultsSaved(false); // Reset flag for new quiz
   }, [navigate]);
 
   // Background Music Control - Initialize audio settings once
@@ -274,9 +278,16 @@ const Simulator = () => {
   };
 
   const saveResults = (outcome: OutcomeType, eggs: number) => {
+    // Prevent duplicate saves
+    if (resultsSaved) {
+      console.log('Results already saved, skipping duplicate save');
+      return;
+    }
+
     const rank = getRankFromEggs(eggs);
+    const entryId = `${callsign}-${Date.now()}`;
     const entry = {
-      id: Date.now().toString(),
+      id: entryId,
       callsign,
       eggs,
       rank,
@@ -292,10 +303,28 @@ const Simulator = () => {
       localStorage.setItem('stork-quiz-result', JSON.stringify(entry));
       console.log('Quiz results saved:', entry);
       
-      // Update leaderboard
-      const leaderboard = JSON.parse(localStorage.getItem('stork-leaderboard') || '[]');
-      leaderboard.push(entry);
-      localStorage.setItem('stork-leaderboard', JSON.stringify(leaderboard));
+      // Update leaderboard - check for duplicates first
+      const leaderboard: LeaderboardEntry[] = JSON.parse(localStorage.getItem('stork-leaderboard') || '[]');
+      
+      // Check if this exact entry already exists (same callsign, eggs, questionReached within last 5 seconds)
+      const now = Date.now();
+      const isDuplicate = leaderboard.some(existingEntry => {
+        const entryTime = new Date(existingEntry.date).getTime();
+        return (
+          existingEntry.callsign === entry.callsign &&
+          existingEntry.eggs === entry.eggs &&
+          existingEntry.questionReached === entry.questionReached &&
+          (now - entryTime) < 5000 // Within 5 seconds
+        );
+      });
+
+      if (!isDuplicate) {
+        leaderboard.push(entry);
+        localStorage.setItem('stork-leaderboard', JSON.stringify(leaderboard));
+        setResultsSaved(true);
+      } else {
+        console.log('Duplicate entry detected, not adding to leaderboard');
+      }
     } catch (error) {
       console.error('Error saving quiz results:', error);
     }

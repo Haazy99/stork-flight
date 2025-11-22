@@ -27,6 +27,28 @@ const Leaderboard = () => {
     if (storedLeaderboard) {
       const allEntries: LeaderboardEntry[] = JSON.parse(storedLeaderboard);
       
+      // Remove duplicates - keep only the most recent entry for each unique combination
+      const uniqueEntries = new Map<string, LeaderboardEntry>();
+      
+      allEntries.forEach(entry => {
+        // Create a unique key based on callsign, eggs, questionReached, and outcome
+        const key = `${entry.callsign}-${entry.eggs}-${entry.questionReached}-${entry.outcome}`;
+        const existing = uniqueEntries.get(key);
+        
+        // Keep the most recent entry if duplicate found
+        if (!existing || new Date(entry.date) > new Date(existing.date)) {
+          uniqueEntries.set(key, entry);
+        }
+      });
+      
+      // Convert back to array
+      const deduplicatedEntries = Array.from(uniqueEntries.values());
+      
+      // Save deduplicated entries back to localStorage
+      if (deduplicatedEntries.length !== allEntries.length) {
+        localStorage.setItem('stork-leaderboard', JSON.stringify(deduplicatedEntries));
+      }
+      
       // Group by rank
       const grouped: Record<Rank, LeaderboardEntry[]> = {
         PEEP: [],
@@ -36,7 +58,7 @@ const Leaderboard = () => {
         SKYMASTER: [],
       };
 
-      allEntries.forEach(entry => {
+      deduplicatedEntries.forEach(entry => {
         grouped[entry.rank].push(entry);
       });
 
