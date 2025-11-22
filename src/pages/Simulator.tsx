@@ -74,38 +74,73 @@ const Simulator = () => {
     setTimeRemaining(40); // Peep tier starts with 40s
   }, [navigate]);
 
-  // Background Music Control
+  // Background Music Control - Initialize audio settings once
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    // Set audio properties
+    audio.volume = 0.3;
+    audio.loop = true;
+  }, []);
+
+  // Background Music Control - Start playing when ready
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || questions.length === 0) return;
+
     // On desktop: auto-play when questions are loaded
     // On mobile: only play when user clicks the audio button (audioStarted = true)
-    if (questions.length > 0) {
-      if (!isMobile) {
-        // Desktop: auto-play
-        audio.volume = 0.3;
-        audio.loop = true;
+    if (!isMobile) {
+      // Desktop: auto-play
+      if (!audioStarted) {
         audio.play().catch(err => {
           console.log('Audio autoplay prevented:', err);
         });
         setAudioStarted(true);
-      } else if (audioStarted) {
-        // Mobile: only play after user interaction
-        audio.volume = 0.3;
-        audio.loop = true;
+      } else if (audio.paused) {
+        // If audio was paused, resume it
+        audio.play().catch(err => {
+          console.log('Audio resume failed:', err);
+        });
+      }
+    } else if (audioStarted) {
+      // Mobile: only play after user interaction
+      if (audio.paused) {
         audio.play().catch(err => {
           console.log('Audio play failed:', err);
         });
       }
     }
-
-    // Cleanup: stop audio when component unmounts
-    return () => {
-      audio.pause();
-      audio.currentTime = 0;
-    };
   }, [questions, audioStarted, isMobile]);
+
+  // Keep audio playing - ensure it doesn't pause during quiz
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !audioStarted) return;
+
+    // Check periodically and resume if paused (unless muted)
+    const checkAudio = setInterval(() => {
+      if (audio.paused && !isMuted && audioStarted) {
+        audio.play().catch(err => {
+          // Silently handle errors (might be user interaction required)
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(checkAudio);
+  }, [audioStarted, isMuted]);
+
+  // Cleanup: stop audio only when component unmounts
+  useEffect(() => {
+    return () => {
+      const audio = audioRef.current;
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    };
+  }, []);
 
   // Mute/Unmute Control
   useEffect(() => {
