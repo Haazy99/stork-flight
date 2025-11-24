@@ -100,7 +100,7 @@ const Hangar = () => {
                   <Input
                     id="callsign"
                     type="text"
-                    placeholder="Your X Username"
+                    placeholder="Your DC Username"
                     value={callsign}
                     onChange={(e) => setCallsign(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleStart()}
@@ -110,7 +110,7 @@ const Hangar = () => {
                 </div>
                 <p className="text-sm text-white/60 text-center flex items-center justify-center gap-2">
                   <Bird className="w-4 h-4" />
-                  Use your X (Twitter) username
+                  Use your DC (Discord) Username
                 </p>
               </div>
 
